@@ -1,0 +1,19 @@
+div.custom-menu-wrapper
+  div.pure-menu.custom-menu.custom-menu-top
+    a(href='#').pure-menu-heading.custom-menu-brand Demo
+      a(href='#').custom-menu-toggle
+        s.bar
+        s.bar
+  div.pure-menu.pure-menu-horizontal.pure-menu-scrollable.custom-menu.custom-menu-bottom.custom-menu-tucked#tuckedMenu
+    div.custom-menu-screen
+    ul.pure-menu-list
+      li.pure-menu-item
+        a(href='/user').pure-menu-link Home
+      li.pure-menu-item
+        a(href='https://#{env.AUTH0_DOMAIN}/v2/logout?returnTo=#{env.LOGOUT_URL}&client_id=#{env.AUTH0_CLIENT_ID}').pure-menu-link Log Out
+      li.pure-menu-item &nbsp;
+      li.pure-menu-item &nbsp;
+      li.pure-menu-item &nbsp;
+      li.pure-menu-item &nbsp;
+      li.pure-menu-item.white-text Logged in as #{user.profile.nickname} &nbsp;
+      img#userPicture.user-picture(src="#{user.profile.picture}")

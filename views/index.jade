@@ -1,0 +1,15 @@
+extends layout
+
+block content
+  div#main.pure-g
+    div#index.pure-u-1.l-box
+      h1= title
+      p Welcome to the token format demo.
+      br
+      #msg
+      p
+        button#signinButton.pure-button.pure-button-primary(onclick="signIn()") Login
+        &nbsp;
+        //button#ssoButton.pure-button.pure-button-primary(onclick="checkSSO()") Try SSO
+      script.
+        console.log('loaded')

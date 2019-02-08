@@ -1,0 +1,61 @@
+doctype html
+html
+  head
+    title= title
+    script(src="https://cdn.auth0.com/js/auth0/8.10.1/auth0.min.js")
+    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-nn4HPE8lTHyVtfCBi5yW9d20FjT8BJwUXyWZT9InLYax14RDjBj46LmSztkmNP9w" crossorigin="anonymous">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootswatch/3.3.5/flatly/bootstrap.min.css">
+    <link rel="stylesheet" href="/main.css">
+
+  body
+    block content
+
+  script.
+    var webAuth = new auth0.WebAuth({
+      domain:       '#{env.AUTH0_DOMAIN}',
+      clientID:     '#{env.AUTH0_CLIENT_ID}',
+      callbackURL:  '#{env.AUTH0_CALLBACK_URL}'
+    });
+
+    function checkSSO() {
+      webAuth.checkSession({
+        responseType: 'token',
+        redirectUri: '#{env.AUTH0_CALLBACK_URL}'
+      }, function (err, authResult) {
+        if (err) {
+          console.log('Error: ' + err);
+          document.getElementById('msg').innerHTML = 'Your session has expired. Please login.';
+          return;
+        }
+
+        if (authResult) {
+          console.log('Session found. Logging in');
+          sso();
+        } else {
+          // should not get here
+          // but for now just tell the user to login
+          console.log('No error in checkSession, but no authResult either.');
+          document.getElementById('msg').innerHTML = 'Your session has expired. Please login.';
+        }
+      });
+    }
+
+    function sso() {
+       webAuth.authorize({
+        redirectUri: '#{env.AUTH0_CALLBACK_URL}',
+        responseType: 'code',
+        audience: '#{env.API_IDENTIFIER}',
+        scope: 'openid profile read:foo offline_access',
+        prompt: 'none'
+      });
+    }
+
+    function signIn() {
+      webAuth.authorize({
+        redirectUri: '#{env.AUTH0_CALLBACK_URL}',
+        responseType: 'code',
+        audience: '#{env.API_IDENTIFIER}',
+        scope: '#{env.SCOPES}',
+        prompt: 'consent'
+      });
+    }
