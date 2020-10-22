@@ -17,45 +17,23 @@ html
       callbackURL:  '#{env.AUTH0_CALLBACK_URL}'
     });
 
-    function checkSSO() {
-      webAuth.checkSession({
-        responseType: 'token',
-        redirectUri: '#{env.AUTH0_CALLBACK_URL}'
-      }, function (err, authResult) {
-        if (err) {
-          console.log('Error: ' + err);
-          document.getElementById('msg').innerHTML = 'Your session has expired. Please login.';
-          return;
-        }
-
-        if (authResult) {
-          console.log('Session found. Logging in');
-          sso();
-        } else {
-          // should not get here
-          // but for now just tell the user to login
-          console.log('No error in checkSession, but no authResult either.');
-          document.getElementById('msg').innerHTML = 'Your session has expired. Please login.';
-        }
-      });
-    }
-
-    function sso() {
-       webAuth.authorize({
-        redirectUri: '#{env.AUTH0_CALLBACK_URL}',
-        responseType: 'code',
-        audience: '#{env.API_IDENTIFIER}',
-        scope: 'openid profile read:foo offline_access',
-        prompt: 'none'
-      });
-    }
-
-    function signIn() {
+    function signIn(organization) {
       webAuth.authorize({
         redirectUri: '#{env.AUTH0_CALLBACK_URL}',
         responseType: 'code',
-        audience: '#{env.API_IDENTIFIER}',
         scope: '#{env.SCOPES}',
-        prompt: 'consent'
+        organization
+      });
+    }
+
+    function signInWithOrgId() {
+      var organization = document.getElementById('organization_id').value;
+      console.log(organization);
+      webAuth.authorize({
+        redirectUri: '#{env.AUTH0_CALLBACK_URL}',
+        responseType: 'code',
+        scope: '#{env.SCOPES}',
+        organization,
+        audience:" '#{env.AUDIENCE}"
       });
     }

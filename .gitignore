@@ -1,6 +1,6 @@
 .env
-.env_map
-env_map.js
+server.cert
+server.key
 
 # Created by https://www.gitignore.io/api/node,osx
 

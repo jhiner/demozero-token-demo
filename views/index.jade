@@ -4,12 +4,24 @@ block content
   div#main.pure-g
     div#index.pure-u-1.l-box
       h1= title
-      p Welcome to the token format demo.
+      p Welcome to the Organizations demo.
       br
       #msg
       p
-        button#signinButton.pure-button.pure-button-primary(onclick="signIn()") Login
+        a(href="login?organization=org_2HPnQC73J1qyvUBk")
+          button#signinButton.pure-button.pure-button-primary Login to Acme organization
         &nbsp;
-        //button#ssoButton.pure-button.pure-button-primary(onclick="checkSSO()") Try SSO
+      p
+        a(href="login?organization=org_2HPnQC73J1qyvzzz")
+          button#signinButton.pure-button.pure-button-primary Login to Beta organization
+        &nbsp;
+      p
+        a(href="login?organization=org_foo")
+          button#signinButton.pure-button.pure-button-primary Login to Foo organization
+        &nbsp;
+      p
+        a(href="login")
+          button#signinButton.pure-button.pure-button-primary Login with no organization
+        &nbsp;
       script.
         console.log('loaded')

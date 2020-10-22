@@ -4,7 +4,7 @@
   "description": "This is a prototype nodejs quickstart project to demonstrate new OAuth as a service features with Auth0.",
   "main": "app.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "nodemon server.js"
   },
   "author": "",
   "license": "ISC",
@@ -13,12 +13,14 @@
     "connect-ensure-login": "^0.1.1",
     "cookie-parser": "^1.4.3",
     "dotenv": "^2.0.0",
-    "express": "^4.14.0",
+    "express": "^4.17.1",
+    "express-openid-connect": "^2.0.0",
     "express-session": "^1.14.1",
     "jade": "^1.11.0",
     "jwt-decode": "^2.2.0",
     "lodash": "^4.17.11",
     "morgan": "^1.7.0",
+    "nodemon": "^2.0.4",
     "passport": "^0.3.2",
     "passport-auth0": "^0.5.2",
     "req-flash": "0.0.3"

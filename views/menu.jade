@@ -10,7 +10,9 @@ div.custom-menu-wrapper
       li.pure-menu-item
         a(href='/user').pure-menu-link Home
       li.pure-menu-item
-        a(href='https://#{env.AUTH0_DOMAIN}/v2/logout?returnTo=#{env.LOGOUT_URL}&client_id=#{env.AUTH0_CLIENT_ID}').pure-menu-link Log Out
+        a(href='https://#{env.AUTH0_DOMAIN}/v2/logout?returnTo=#{env.LOGOUT_URL}&client_id=#{env.AUTH0_CLIENT_ID}').pure-menu-link Logout
+      li.pure-menu-item
+        a(href='/').pure-menu-link Go Home Without  Logout
       li.pure-menu-item &nbsp;
       li.pure-menu-item &nbsp;
       li.pure-menu-item &nbsp;

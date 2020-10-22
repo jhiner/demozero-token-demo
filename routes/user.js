@@ -11,74 +11,18 @@ let apiData;
 /* GET user profile. */
 router.get('/', ensureLoggedIn, function(req, res, next) {
 
-  let decodedIDToken = jwtDecode(req.user.extraParams.id_token);
+  const decodedIDToken = jwtDecode(req.user.extraParams.id_token);
+  const decodedAccessToken = jwtDecode(req.user.extraParams.access_token);
 
   res.render('user', {
     user: req.user,
     decodedIDToken,
+    decodedAccessToken,
     apiData: apiData,
-    title: 'Token Format Demo'
+    title: 'Fake SaaS App'
   });
 
   apiData = '';
-});
-
-router.get('/opaqueapicall', ensureLoggedIn, function(req, res, next) {
-  var options = {
-    url: `${process.env.API_ENDPOINT}opaqueapi`,
-    headers: {
-      'Authorization': 'Bearer ' + req.user.extraParams.access_token
-    }
-  };
-
-  request(options, function(error, response, body) {
-    if (error) {
-      apiData = 'Unable to call API: ' + error.message;
-      return res.redirect('/user');
-    }
-    if (response.statusCode === 401) {
-      // need a refresh token
-      let parsedBody = JSON.parse(body);
-      apiData = 'Unauthorized. ' + parsedBody.message;
-      return res.redirect('/user');
-    }
-    
-    try {
-      apiData = JSON.parse(body);
-    } catch (err) {
-      apiData = 'Unable to parse API response';
-    }
-    return res.redirect('/user');
-  });
-});
-
-router.get('/jwtapicall', ensureLoggedIn, function(req, res, next) {
-  var options = {
-    url: `${process.env.API_ENDPOINT}jwtapi`,
-    headers: {
-      'Authorization': 'Bearer ' + req.user.extraParams.access_token
-    }
-  };
-
-  request(options, function(error, response, body) {
-    if (error) {
-      apiData = 'Unable to call API: ' + error.message;
-      return res.redirect('/user');
-    }
-    if (response.statusCode === 401) {
-      // need a refresh token
-      let parsedBody = JSON.parse(body);
-      apiData = 'Unauthorized. ' + parsedBody.message;
-      return res.redirect('/user');
-    }
-    
-    try {
-      apiData = JSON.parse(body);
-    } catch (err) {
-      apiData = 'Unable to parse API response';
-    }
-    return res.redirect('/user');
-  });
 });
 
 router.get('/refresh', ensureLoggedIn, function(req, res, next) {
@@ -90,11 +34,6 @@ router.get('/refresh', ensureLoggedIn, function(req, res, next) {
   });
 });
 
-router.get('/revoke', ensureLoggedIn, function(req, res, next) {
-  revokeAccessToken(req, function (error, response, body) {
-    return res.redirect('/user');
-  });
-});
 
 router.get('/userinfo', ensureLoggedIn, function(req, res, next) {
   getUserInfo(req, function (error, response, body) {
@@ -117,37 +56,21 @@ function getUserInfo(req, cb) {
   return request(options, cb);
 }
 
-function revokeAccessToken(req, cb) {
-  // get refresh token
-  var options = { method: 'POST',
-    url: `https://${process.env.AUTH0_DOMAIN}/oauth/revoke`,
-    headers: { 'content-type': 'application/json' },
-    body: { 
-      client_id: `${process.env.AUTH0_CLIENT_ID}`,
-      client_secret: `${process.env.AUTH0_CLIENT_SECRET}`,
-      token: req.user.extraParams.access_token
-    }, 
-    json: true
-  };
-
-  return request(options, cb);
-}
-
 function getRefreshToken(req, cb) {
 
   // get refresh token
   var options = { method: 'POST',
     url: `https://${process.env.AUTH0_DOMAIN}/oauth/token`,
     headers: { 'content-type': 'application/json' },
-    body: { 
+    body: {
       grant_type: 'refresh_token',
       client_id: `${process.env.AUTH0_CLIENT_ID}`,
       client_secret: `${process.env.AUTH0_CLIENT_SECRET}`,
       refresh_token: req.user.extraParams.refresh_token,
       redirect_uri: `${process.env.AUTH0_CALLBACK_URL}`,
       scope: `${process.env.SCOPES}`
-    }, 
-    json: true 
+    },
+    json: true
   };
 
   return request(options, cb);

@@ -17,31 +17,25 @@ block content
         br
         pre #{JSON.stringify(decodedIDToken, null, 4)}
       p
-        strong access_token 
-        a(href="user/refresh")
-          button#apiCallButton.pure-button.pure-button-primary Refresh Tokens 
-        &nbsp;
-        a(href="user/revoke")
-          button#apiCallButton.pure-button.pure-button-primary Revoke Access Token
+        div.col-sm-12
+        strong Access Token Payload
         br
-        pre #{user.extraParams.access_token}
+        pre #{JSON.stringify(decodedAccessToken, null, 4)}
       p
-        strong refresh_token
-        br
+        strong refresh_token &nbsp;
+        a(href="user/refresh")
+          button#apiCallButton.pure-button.pure-button-primary Refresh Tokens
+        &nbsp;
         pre #{user.extraParams.refresh_token}
       p &nbsp;
       p
-        a(href="user/userinfo")
-          button#apiCallButton.pure-button.pure-button-primary Call Userinfo
-      p
-        a(href="user/opaqueapicall")
-          button#apiCallButton.pure-button.pure-button-primary Call API (accepts opaque token only)
-      p
-        a(href="user/jwtapicall")
-          button#apiCallButton.pure-button.pure-button-primary Call API (accepts JWT token only)
+        strong access_token &nbsp;
+        &nbsp;
+        pre #{user.extraParams.access_token}
       p &nbsp;
       p
-        strong API call result
+        strong API call result &nbsp;
+        a(href="user/userinfo")
+          button#apiCallButton.pure-button.pure-button-primary Call Userinfo
         br
         pre#api-call-result #{JSON.stringify(apiData, null, 4)}
-      

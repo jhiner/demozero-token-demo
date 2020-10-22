@@ -6,12 +6,33 @@ const request = require('request');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Token Format Demo' });
+  res.render('index', { title: 'Fake SaaS App' });
 });
 
-router.get('/login', function(req, res){
-  res.redirect('/');
-});
+const authenticateWithOrganization = (req, res) => {
+  const passportOptions = {
+    redirectUri: `${process.env.AUTH0_CALLBACK_URL}`,
+    responseType: 'code',
+    scope: `${process.env.SCOPES}`,
+    audience: `${process.env.API_IDENTIFIER}`
+  };
+
+  // TODO: Passport or our SDK needs updated to include organization
+  let authorizeUrl = `https://${process.env.AUTH0_DOMAIN}/authorize?`;
+  authorizeUrl = `${authorizeUrl}client_id=${process.env.AUTH0_CLIENT_ID}`;
+  authorizeUrl = `${authorizeUrl}&response_type=code`;
+  authorizeUrl = `${authorizeUrl}&redirect_uri=${process.env.AUTH0_CALLBACK_URL}`;
+  authorizeUrl = `${authorizeUrl}&audience=${process.env.API_IDENTIFIER}`;
+  authorizeUrl = `${authorizeUrl}&scope=${process.env.SCOPES}`;
+
+  if (req.query.organization) {
+      authorizeUrl = `${authorizeUrl}&organization=${req.query.organization}`;
+  }
+
+  res.redirect(authorizeUrl);
+}
+
+router.get('/login', authenticateWithOrganization);
 
 router.get('/diag', function(req, res) {
   res.json({
