@@ -10,13 +10,6 @@ router.get('/', function(req, res, next) {
 });
 
 const authenticateWithOrganization = (req, res) => {
-  const passportOptions = {
-    redirectUri: `${process.env.AUTH0_CALLBACK_URL}`,
-    responseType: 'code',
-    scope: `${process.env.SCOPES}`,
-    audience: `${process.env.API_IDENTIFIER}`
-  };
-
   // TODO: Passport or our SDK needs updated to include organization
   let authorizeUrl = `https://${process.env.AUTH0_DOMAIN}/authorize?`;
   authorizeUrl = `${authorizeUrl}client_id=${process.env.AUTH0_CLIENT_ID}`;
@@ -40,8 +33,7 @@ router.get('/diag', function(req, res) {
     AUTH0_CLIENT_SECRET: process.env.AUTH0_CLIENT_SECRET.substr(0, 3) + '...',
     AUTH0_DOMAIN: process.env.AUTH0_DOMAIN,
     AUTH0_CALLBACK_URL: process.env.AUTH0_CALLBACK_URL,
-    LOGOUT_URL: process.env.LOGOUT_URL,
-    API_ENDPOINT: process.env.API_ENDPOINT
+    LOGOUT_URL: process.env.LOGOUT_URL
   });
 });
 
