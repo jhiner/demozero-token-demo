@@ -1,41 +1,35 @@
 extends layout
-script.
-  (function (window, document) {
-  document.getElementById('toggle').addEventListener('click', function (e) {
-      document.getElementById('tuckedMenu').classList.toggle('custom-menu-tucked');
-      document.getElementById('toggle').classList.toggle('x');
-  });
-  })(this, this.document);
 block content
   include menu
-  div#main.pure-g
-    div.pure-u-1.l-box
-      h3 Welcome #{user.profile.displayName}!
-      p
-        div.col-sm-12
-        strong ID Token Payload
-        br
-        pre #{JSON.stringify(decodedIDToken, null, 4)}
-      p
-        div.col-sm-12
-        strong Access Token Payload
-        br
-        pre #{JSON.stringify(decodedAccessToken, null, 4)}
-      p
-        strong refresh_token &nbsp;
-        a(href="user/refresh")
-          button#apiCallButton.pure-button.pure-button-primary Refresh Tokens
-        &nbsp;
-        pre #{user.extraParams.refresh_token}
-      p &nbsp;
-      p
-        strong access_token &nbsp;
-        &nbsp;
-        pre #{user.extraParams.access_token}
-      p &nbsp;
-      p
-        strong Userinfo result &nbsp;
-        a(href="user/userinfo")
-          button#apiCallButton.pure-button.pure-button-primary Call Userinfo
-        br
-        pre#api-call-result #{JSON.stringify(apiData, null, 4)}
+  p &nbsp;
+  h1 Welcome #{user.profile.displayName}!
+  if apiData
+    p &nbsp;
+    strong Userinfo result &nbsp;
+    pre#api-call-result #{JSON.stringify(apiData, null, 4)}
+  div(id="accordion")
+    div(class="card")
+      div(class="card-header" id="headingOne")
+        h5(class="mb-0")
+          button(class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne") ID Token Payload
+      div(id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion")
+        div(class="card-body")
+          pre
+            code #{JSON.stringify(decodedIDToken, null, 4)}
+    div(class="card")
+      div(class="card-header" id="headingTwo")
+        h5(class="mb-0")
+          button(class="btn btn-link" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo") Access Token Payload
+      div(id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion")
+        div(class="card-body")
+          pre
+            code #{JSON.stringify(decodedAccessToken, null, 4)}
+    div(class="card")
+      div(class="card-header" id="headingThree")
+        h5(class="mb-0")
+          button(class="btn btn-link" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree") Tokens
+      div(id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion")
+        div(class="card-body")
+          pre Access Token: #{tokens.access_token.substring(0, 20)}...
+          pre ID Token: #{tokens.id_token.substring(0, 20)}...
+          pre Refresh Token: #{tokens.refresh_token.substring(0, 20)}...

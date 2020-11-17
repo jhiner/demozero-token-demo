@@ -6,6 +6,7 @@ const dotenv = require('dotenv');
 const passport = require('passport');
 const Auth0Strategy = require('passport-auth0');
 const flash = require('req-flash');
+const bodyParser = require('body-parser')
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
@@ -46,6 +47,8 @@ passport.deserializeUser(function(user, done) {
 var app = express();
 // make env available in jade templates
 app.locals.env = process.env;
+
+app.use(bodyParser.urlencoded({ extended: false }));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
