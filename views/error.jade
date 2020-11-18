@@ -1,11 +1,12 @@
 extends layout
 
 block content
-  div#main.pure-g
-    div#index.pure-u-1.l-box
-      h1 Oops!
-      p An error occurred during login.
-      h2 #{error}
-      p #{error_description}
-      a(href="/")
-        button#apiCallButton.pure-button.pure-button-primary Home
+  div(class="row mt-3")
+    div(class="col-sm-12")
+      div(class="card")
+        h5(class="card-header") An error occurred during login.
+        div(class="card-body")
+          h5(class="card-title") #{error}
+          p(class="card-text") #{error_description}
+          a(href="/")
+            button(id="apiCallButton" class="btn btn-danger") Home
