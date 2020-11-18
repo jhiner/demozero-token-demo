@@ -9,9 +9,13 @@ const { authenticateWithOrganization, orgSelection, getOrganizations, getRoles }
 const { inviteFlow } = handlers.invite;
 
 router.get('/', async function (req, res, next) {
-  const organizations = await getOrganizations();
-  const roles = await getRoles();
-  res.render('index', { title: 'Fake SaaS App', organizations, roles });
+  try {
+    const organizations = await getOrganizations();
+    const roles = await getRoles();
+    res.render('index', { title: 'Fake SaaS App', organizations, roles });
+  } catch (error) {
+    return next(error);
+  }
 });
 
 router.get('/login', authenticateWithOrganization);
