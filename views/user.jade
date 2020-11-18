@@ -3,10 +3,10 @@ block content
   include menu
   p &nbsp;
   h1 Welcome #{user.profile.displayName}!
-  if apiData
+  if userinfoResponse
     p &nbsp;
     strong Userinfo result &nbsp;
-    pre#api-call-result #{JSON.stringify(apiData, null, 4)}
+    pre#api-call-result #{JSON.stringify(userinfoResponse, null, 4)}
   div(id="accordion")
     div(class="card")
       div(class="card-header" id="headingOne")

@@ -54,8 +54,9 @@ router.get(
 );
 
 router.get('/error', (req, res) => {
-  var error = req.flash('error');
-  var error_description = req.flash('error_description');
+  const error = req.flash('error');
+  const error_description = req.flash('error_description');
+
   req.logout();
   res.render('error', {
     error: error,
