@@ -5,14 +5,15 @@ const handlers = require('../lib/handlers');
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
-const { authenticateWithOrganization, orgSelection, getOrganizations, getRoles } = handlers.login;
+const { authenticateWithOrganization, orgSelection, getOrganizations, getRoles, getConnections } = handlers.login;
 const { inviteFlow } = handlers.invite;
 
 router.get('/', async function (req, res, next) {
   try {
     const organizations = await getOrganizations();
     const roles = await getRoles();
-    res.render('index', { title: 'Fake SaaS App', organizations, roles });
+    const connections = await getConnections();
+    res.render('index', { title: 'Fake SaaS App', organizations, roles, connections });
   } catch (error) {
     return next(error);
   }

@@ -44,6 +44,12 @@ block content
               input(id="email" name="email" value="hinerman@gmail.com", class="form-control", size="20")
               small(id="emailHelp" class="form-text text-muted") Any user with this email will be deleted first, to simulate a "fresh" invite.
             div(class="form-group")
+              <label for="connection_id">Connection (Optional)</label>
+              select(id="connection_id", name="connection_id", class="form-control")
+                option(value="not-specified") Not specified
+                each connection in connections
+                  option(value=connection.id) #{connection.name}
+            div(class="form-group")
               <label for="organization_id">Organization</label>
               select(id="organization_id", name="organization_id", class="form-control")
                 each organization in organizations
