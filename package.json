@@ -4,7 +4,8 @@
   "description": "This is a prototype nodejs quickstart project to demonstrate new OAuth as a service features with Auth0.",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon server.js"
+    "start": "nodemon server.js",
+    "reset-tenant": "node scripts/reset_tenant.js"
   },
   "author": "",
   "license": "ISC",

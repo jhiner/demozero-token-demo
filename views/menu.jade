@@ -4,7 +4,7 @@ nav(class="navbar navbar-expand-sm navbar-dark bg-primary")
     li(class="nav-item active")
       a(href="/" class="nav-link") Go Home Without Logout
     li(class="nav-item active")
-      a(href='https://#{env.AUTH0_DOMAIN}/v2/logout?returnTo=#{env.LOGOUT_URL}&client_id=#{env.AUTH0_CLIENT_ID}' class="nav-link") Logout
+      a(href='https://#{config.AUTH0_DOMAIN}/v2/logout?returnTo=#{config.APP_LOGOUT_URL}&client_id=#{config.APP_CLIENT_ID}' class="nav-link") Logout
     li(class="nav-item active")
       a(href="/user/refresh" class="nav-link") Refresh Tokens
     li(class="nav-item active")
