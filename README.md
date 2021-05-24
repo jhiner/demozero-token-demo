@@ -2,6 +2,7 @@
 
 ## Setup
 
+- `npm install`
 - Copy .env.example to .env and set the appropriate values.
 - The Management API client (M2M app) that you use must have at minimum read:client_grants and update:client_grants scopes assigned via a client grant for the API2 resource server in your tenant. This is the minimum setup that is required. The app will automatically bootstrap the rest.
 - Add myapp.com to your /etc/hosts, mapped to 127.0.0.1.
