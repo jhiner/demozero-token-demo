@@ -60,4 +60,23 @@ const renderUserPage = (req, res, data = {}) => {
   });
 };
 
+router.get('/saml', ensureLoggedIn, (req, res, next) => {
+  renderUserPageWithSAML(req, res);
+});
+
+const renderUserPageWithSAML = (req, res) => {
+  const samlProfile = req.user.profile;
+
+  res.render('samluser', {
+    user: req.user,
+    samlProfile,
+    title: 'Fake SAML SaaS App',
+    config: {
+      APP_LOGOUT_URL,
+      AUTH0_DOMAIN: getEnv().AUTH0_DOMAIN,
+      APP_CLIENT_ID: getEnv().SAML_APP_CLIENT_ID,
+    },
+  });
+}
+
 module.exports = router;

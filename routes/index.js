@@ -5,7 +5,7 @@ const handlers = require('../lib/handlers');
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
-const { authenticateWithOrganization, orgSelection, getOrganizations, getRoles, getConnections } = handlers.login;
+const { authenticateWithOrganization, samlOrgSelection, orgSelection, getOrganizations, getRoles, getConnections } = handlers.login;
 const { inviteFlow } = handlers.invite;
 
 router.get('/', async function (req, res, next) {
@@ -20,10 +20,13 @@ router.get('/', async function (req, res, next) {
 });
 
 router.get('/login', authenticateWithOrganization);
-
 router.post('/invite', inviteFlow);
-
 router.post('/orgselect', orgSelection);
+
+router.post('/saml/orgselect', samlOrgSelection);
+router.get('/saml/login', (req, res) => {
+  passport.authenticate('wsfed-saml2', { failureRedirect: '/error', failureFlash: true, organization: req.query.organization })(req, res);
+});
 
 router.get('/diag', (req, res) => {
   res.json({
@@ -47,6 +50,14 @@ router.get('/loggedOut', (req, res) => {
 router.post('/callback', (req, res) => {
   res.redirect(req.session.returnTo || '/user');
 });
+
+router.post(
+  '/saml/callback',
+  passport.authenticate('wsfed-saml2', { failureRedirect: '/error', failureFlash: true }),
+  (req, res) => {
+    res.redirect('/user/saml');
+  }
+);
 
 router.get(
   '/callback',

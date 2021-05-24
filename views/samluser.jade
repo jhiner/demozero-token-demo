@@ -1,0 +1,13 @@
+extends layout
+block content
+  include menusaml
+  p &nbsp;
+  h1 Welcome #{user.profile.email}!
+  div(class="card")
+    div(class="card-header" id="headingOne")
+      h5(class="mb-0")
+        User Profile SAML Response
+    div(id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion")
+      div(class="card-body")
+        pre
+          code #{JSON.stringify(samlProfile, null, 4)}

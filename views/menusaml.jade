@@ -1,0 +1,10 @@
+nav(class="navbar navbar-expand-sm navbar-dark bg-primary")
+  a(class="navbar-brand") Fake SaaS SAML App Demo
+  ul(class="navbar-nav")
+    li(class="nav-item active")
+      a(href="/" class="nav-link") Go Home Without Logout
+    li(class="nav-item active")
+      a(href='https://#{config.AUTH0_DOMAIN}/v2/logout?returnTo=#{config.APP_LOGOUT_URL}&client_id=#{config.APP_CLIENT_ID}' class="nav-link") Logout
+  | &nbsp;
+  | &nbsp;
+  span(class="navbar-text")  Logged in as #{user.profile.email} &nbsp;

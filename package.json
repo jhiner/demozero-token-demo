@@ -25,6 +25,7 @@
     "nodemon": "^2.0.4",
     "passport": "^0.3.2",
     "passport-auth0": "^0.5.2",
+    "passport-wsfed-saml2": "^4.4.0",
     "req-flash": "0.0.3"
   },
   "now": {
