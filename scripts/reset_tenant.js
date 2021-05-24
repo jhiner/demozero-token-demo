@@ -1,5 +1,5 @@
 const dotenv = require('dotenv');
-const { APP_RESOURCE_SERVER_IDENTIFIER, CLIENT_NAME_FOR_DEMO_APP, DEMO_ORG_NAME, DEMO_ROLE_NAME_PREFIX, DEMO_CONNECTION_NAME } = require('../lib/constants');
+const { APP_RESOURCE_SERVER_IDENTIFIER, CLIENT_NAME_FOR_DEMO_APP, DEMO_ORG_NAME, DEMO_ROLE_NAME_PREFIX, DEMO_CONNECTION_NAME, CLIENT_NAME_FOR_SAML_DEMO_APP } = require('../lib/constants');
 const { makeApi2Request } = require('../lib/api2');
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
@@ -11,6 +11,7 @@ const resetTenant = async () => {
   console.log('The next time the app boots, these artifacts will be re-created.');
   console.log('>>> DELETING CLIENT');
   await deleteAppClient();
+  await deleteSamlAppClient();
   console.log('>>> DELETING RESOURCE SERVER');
   await deleteAppResourceServer();
   console.log('>>> DELETING ORG');
@@ -46,6 +47,24 @@ const deleteAppClient = async () => {
 
   const clients = await makeApi2Request(getClientsRequest);
   const appClient = clients.filter((client) => client.name === CLIENT_NAME_FOR_DEMO_APP);
+  if (appClient.length < 1) {
+    return;
+  }
+
+  const request = {
+    method: 'delete',
+    path: `clients/${appClient[0].client_id}`,
+  };
+  await makeApi2Request(request);
+};
+
+const deleteSamlAppClient = async () => {
+  const getClientsRequest = {
+    path: 'clients?page=0&per_page=100',
+  };
+
+  const clients = await makeApi2Request(getClientsRequest);
+  const appClient = clients.filter((client) => client.name === CLIENT_NAME_FOR_SAML_DEMO_APP);
   if (appClient.length < 1) {
     return;
   }
