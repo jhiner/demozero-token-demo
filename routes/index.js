@@ -25,7 +25,12 @@ router.post('/orgselect', orgSelection);
 
 router.post('/saml/orgselect', samlOrgSelection);
 router.get('/saml/login', (req, res) => {
-  passport.authenticate('wsfed-saml2', { failureRedirect: '/error', failureFlash: true, organization: req.query.organization })(req, res);
+  const passportOptions = { failureRedirect: '/error', failureFlash: true };
+  if (req.query.organization) {
+    // TODO: Update passport-saml-wsfed lib to optional pass this
+    passportOptions.organization = req.query.organization;
+  }
+  passport.authenticate('wsfed-saml2', passportOptions)(req, res);
 });
 
 router.get('/diag', (req, res) => {
@@ -51,13 +56,9 @@ router.post('/callback', (req, res) => {
   res.redirect(req.session.returnTo || '/user');
 });
 
-router.post(
-  '/saml/callback',
-  passport.authenticate('wsfed-saml2', { failureRedirect: '/error', failureFlash: true }),
-  (req, res) => {
-    res.redirect('/user/saml');
-  }
-);
+router.post('/saml/callback', passport.authenticate('wsfed-saml2', { failureRedirect: '/error', failureFlash: true }), (req, res) => {
+  res.redirect('/user/saml');
+});
 
 router.get(
   '/callback',
