@@ -7,13 +7,19 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
 const { authenticateWithOrganization, samlOrgSelection, orgSelection, getOrganizations, getRoles, getConnections } = handlers.login;
 const { inviteFlow } = handlers.invite;
+const { getEnv } = require('../lib/env');
+const { APP_RESOURCE_SERVER_IDENTIFIER, USERINFO_AUDIENCE, API2_AUDIENCE } = require('../lib/constants');
+
+const { saveConfiguration } = handlers.configuration;
 
 router.get('/', async function (req, res, next) {
   try {
     const organizations = await getOrganizations();
     const roles = await getRoles();
     const connections = await getConnections();
-    res.render('index', { title: 'Fake SaaS App', organizations, roles, connections });
+    const audienceList = [APP_RESOURCE_SERVER_IDENTIFIER, USERINFO_AUDIENCE, API2_AUDIENCE];
+
+    res.render('index', { title: 'Fake SaaS App', organizations, roles, connections, selectedAudience: getEnv().audience, audienceList, scope: getEnv().scope });
   } catch (error) {
     return next(error);
   }
@@ -39,7 +45,7 @@ router.get('/diag', (req, res) => {
     AUTH0_CLIENT_SECRET: process.env.AUTH0_CLIENT_SECRET.substr(0, 3) + '...',
     AUTH0_DOMAIN: process.env.AUTH0_DOMAIN,
     AUTH0_CALLBACK_URL: process.env.AUTH0_CALLBACK_URL,
-    LOGOUT_URL: process.env.LOGOUT_URL,
+    LOGOUT_URL: process.env.LOGOUT_URL
   });
 });
 
@@ -63,7 +69,7 @@ router.post('/saml/callback', passport.authenticate('wsfed-saml2', { failureRedi
 router.get(
   '/callback',
   passport.authenticate('auth0', {
-    failureRedirect: '/error',
+    failureRedirect: '/error'
   }),
   (req, res) => {
     res.redirect(req.session.returnTo || '/user');
@@ -77,12 +83,14 @@ router.get('/error', (req, res) => {
   req.logout();
   res.render('error', {
     error: error,
-    error_description: error_description,
+    error_description: error_description
   });
 });
 
 router.get('/unauthorized', (req, res) => {
   res.render('unauthorized');
 });
+
+router.post('/saveconfiguration', saveConfiguration);
 
 module.exports = router;

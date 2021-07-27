@@ -17,7 +17,7 @@ router.get('/refresh', ensureLoggedIn, async (req, res, next) => {
 
     renderUserPage(req, res, {
       idToken: refreshTokenResponse.id_token,
-      accessToken: refreshTokenResponse.access_token,
+      accessToken: refreshTokenResponse.access_token
     });
   } catch (error) {
     next(error);
@@ -39,7 +39,12 @@ const renderUserPage = (req, res, data = {}) => {
   const accessToken = data.accessToken || req.user.extraParams.access_token;
 
   const decodedIDToken = jwtDecode(idToken);
-  const decodedAccessToken = jwtDecode(accessToken);
+  let decodedAccessToken = '';
+  try {
+    jwtDecode(accessToken);
+  } catch (error) {
+    decodedAccessToken = 'Unable to decode';
+  }
 
   res.render('user', {
     user: req.user,
@@ -50,13 +55,13 @@ const renderUserPage = (req, res, data = {}) => {
     tokens: {
       refresh_token: req.user.extraParams.refresh_token,
       id_token: idToken,
-      access_token: accessToken,
+      access_token: accessToken
     },
     config: {
       APP_LOGOUT_URL,
       AUTH0_DOMAIN: getEnv().AUTH0_DOMAIN,
-      APP_CLIENT_ID: getEnv().APP_CLIENT_ID,
-    },
+      APP_CLIENT_ID: getEnv().APP_CLIENT_ID
+    }
   });
 };
 
@@ -74,9 +79,9 @@ const renderUserPageWithSAML = (req, res) => {
     config: {
       APP_LOGOUT_URL,
       AUTH0_DOMAIN: getEnv().AUTH0_DOMAIN,
-      APP_CLIENT_ID: getEnv().SAML_APP_CLIENT_ID,
-    },
+      APP_CLIENT_ID: getEnv().SAML_APP_CLIENT_ID
+    }
   });
-}
+};
 
 module.exports = router;

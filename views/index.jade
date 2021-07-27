@@ -86,4 +86,23 @@ block content
           p(class="card-text") Omit the organization parameter completely
           a(href="saml/login")
             button(id="signinButton" class="btn btn-primary") SAML Login with no organization
+  div(class="row mt-3")
+    div(class="col-sm-12")
+      div(class="card")
+        h5(class="card-header") Runtime Configuration
+        div(class="card-body")
+          form(name="configuration" method="post" action="saveconfiguration")
+            div(class="form-group")
+              <label for="audience">Audience</label>
+              select(id="audience" name="audience" class="form-control")
+                each audience in audienceList
+                  if (selectedAudience === audience)
+                    option(value=audience selected) #{audience}
+                  else
+                    option(value=audience ) #{audience}
+            div(class="form-group")
+              <label for="audience">Scope</label>
+              input(id="scope" name="scope" value="#{scope}", class="form-control", size="20")
+            input(type="submit" value="Save Configuration" class="btn btn-primary")
+            small(id="configurationHelp" class="form-text text-muted") Future calls to /authorize will use these values. They will be reset when the app restarts.
     div(class="col-sm-6") &nbsp;
