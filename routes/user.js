@@ -41,7 +41,7 @@ const renderUserPage = (req, res, data = {}) => {
   const decodedIDToken = jwtDecode(idToken);
   let decodedAccessToken = '';
   try {
-    jwtDecode(accessToken);
+    decodedAccessToken = jwtDecode(accessToken);
   } catch (error) {
     decodedAccessToken = 'Unable to decode';
   }
