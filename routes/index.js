@@ -33,7 +33,6 @@ router.post('/saml/orgselect', samlOrgSelection);
 router.get('/saml/login', (req, res) => {
   const passportOptions = { failureRedirect: '/error', failureFlash: true };
   if (req.query.organization) {
-    // TODO: Update passport-saml-wsfed lib to optional pass this
     passportOptions.organization = req.query.organization;
   }
   passport.authenticate('wsfed-saml2', passportOptions)(req, res);

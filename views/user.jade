@@ -30,6 +30,9 @@ block content
           button(class="btn btn-link" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree") Tokens
       div(id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion")
         div(class="card-body")
-          pre Access Token: #{tokens.access_token}
-          pre ID Token: #{tokens.id_token}
-          pre Refresh Token: #{tokens.refresh_token}
+          pre Access Token:
+            pre #{tokens.access_token}
+          pre ID Token:
+            pre #{tokens.id_token}
+          pre Refresh Token:
+            pre #{tokens.refresh_token}
