@@ -107,8 +107,11 @@ block content
                   else
                     option(value=audience ) #{audience}
             div(class="form-group")
-              <label for="audience">Scope</label>
+              <label for="scope">Scope</label>
               input(id="scope" name="scope" value="#{scope}", class="form-control", size="20")
+            div(class="form-group")
+              <label for="prompt">Prompt</label>
+              input(id="prompt" name="prompt" value="#{prompt}", class="form-control", size="20")
             input(type="submit" value="Save Configuration" class="btn btn-primary")
             small(id="configurationHelp" class="form-text text-muted") Future calls to /authorize will use these values. They will be reset when the app restarts.
     div(class="col-sm-6") &nbsp;
