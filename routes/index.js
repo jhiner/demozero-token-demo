@@ -19,7 +19,7 @@ router.get('/', async function (req, res, next) {
     const connections = await getConnections();
     const audienceList = [APP_RESOURCE_SERVER_IDENTIFIER, USERINFO_AUDIENCE, API2_AUDIENCE];
 
-    res.render('index', { title: 'Fake SaaS App', organizations, roles, connections, selectedAudience: getEnv().audience, audienceList, scope: getEnv().scope, prompt: getEnv().prompt });
+    res.render('index', { title: 'Demo SaaS App', organizations, roles, connections, selectedAudience: getEnv().audience, audienceList, scope: getEnv().scope, prompt: getEnv().prompt });
   } catch (error) {
     return next(error);
   }
