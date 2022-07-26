@@ -1,0 +1,1 @@
+openssl req -subj '/O=Demozero/C=US/CN=myapp.com' -new -newkey rsa:2048 -sha256 -days 3650 -nodes -x509 -keyout server.key -out server.cert

@@ -19,8 +19,39 @@ block content
               label
                 input(type="checkbox", name="sendorgname")
                 = " Send Organization Name"
+            div(class="form-group")
+              <label for="opt_param_connection">Connection (Optional)</label>
+              select(id="opt_param_connection", name="opt_param_connection", class="form-control")
+                option(selected, value) Not specified
+                each connection in connections
+                  option(value=connection.name) #{connection.name}
+              small(id="connectionHelp" class="form-text text-muted") Optionally specify which enabled connection should be displayed (DB connection) or redirected to (federated connections).
+            
+            div(class="form-group")
+              <label for="opt_param_login_hint">Login Hint</label>
+              input(id="opt_param_login_hint" name="opt_param_login_hint", class="form-control", size="20")
+              small(id="emailHintHelp" class="form-text text-muted") Pre-populate the identifier of the user (DB connection) or trigger home-realm discovery if enabled.
+
             input(type="submit" value="Login to organization" class="btn btn-primary")
   div(class="row mt-3")
+    div(class="col-sm-6")
+      div(class="card")
+        h5(class="card-header") Login with no organization
+        div(class="card-body")
+          form(name="no-org" method="get" action="login")
+            p(class="card-text") Omit the organization parameter completely
+            div(class="form-group")
+              <label for="opt_param_connection">Connection (Optional)</label>
+              select(id="opt_param_connection", name="opt_param_connection", class="form-control")
+                option(selected, value) Not specified
+                each connection in connections
+                  option(value=connection.name) #{connection.name}
+            
+            div(class="form-group")
+              <label for="opt_param_login_hint">Login Hint</label>
+              input(id="opt_param_login_hint" name="opt_param_login_hint", class="form-control", size="20")
+
+            input(type="submit" value="Login with no organization" class="btn btn-primary")
     div(class="col-sm-6")
       div(class="card")
         h5(class="card-header") Login with invalid organization id
@@ -28,13 +59,6 @@ block content
           p(class="card-text") We'll pass an invalid organization id (org_xyz)
           a(href="login?organization=org_foo")
             button(id="signinButton" class="btn btn-primary") Login with invalid organization id
-    div(class="col-sm-6")
-      div(class="card")
-        h5(class="card-header") Login with no organization
-        div(class="card-body")
-          p(class="card-text") Omit the organization parameter completely
-          a(href="login")
-            button(id="signinButton" class="btn btn-primary") Login with no organization
   div(class="row mt-3")
     div(class="col-sm-12")
       div(class="card")

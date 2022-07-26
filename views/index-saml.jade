@@ -1,0 +1,36 @@
+extends layout
+
+block content
+  include index-header
+  div(class="row mt-3")
+    div(class="col-sm-12")
+      div(class="card")
+        h5(class="card-header") SAML: Login with Organization
+        div(class="card-body")
+          form(name="org-select" method="post" action="saml/orgselect")
+            div(class="form-group")
+              <label for="organization_id">Organization</label>
+              select(id="organization_id" name="organization_id" class="form-control")
+                each organization in organizations
+                  option(value=organization.id + '|' + organization.name) #{organization.name}
+              if (showOrgName)
+                label
+                    input(type="checkbox", name="sendorgname")
+                    = " Send Organization Name"
+            input(type="submit" value="SAML Login to organization" class="btn btn-primary")
+            small(id="emailHelp" class="form-text text-muted") This will use the SAML protocol when logging in using Auth0.
+  div(class="row mt-3")
+    div(class="col-sm-6")
+      div(class="card")
+        h5(class="card-header") SAML: Login with no organization
+        div(class="card-body")
+          p(class="card-text") Omit the organization parameter completely
+          a(href="saml/login")
+            button(id="signinButton" class="btn btn-primary") SAML Login with no organization
+    div(class="col-sm-6")
+      div(class="card")
+        h5(class="card-header") SAML: Login with invalid organization id
+        div(class="card-body")
+          p(class="card-text") We'll pass an invalid organization id (org_xyz)
+          a(href="saml/login?organization=org_foo")
+            button(id="signinButton" class="btn btn-primary") SAML Login with invalid organization id

@@ -1,5 +1,5 @@
 const dotenv = require('dotenv');
-const { APP_RESOURCE_SERVER_IDENTIFIER, CLIENT_NAME_FOR_DEMO_APP, DEMO_ORG_NAME, DEMO_ROLE_NAME_PREFIX, DEMO_CONNECTION_NAME, CLIENT_NAME_FOR_SAML_DEMO_APP } = require('../lib/constants');
+const { APP_RESOURCE_SERVER_IDENTIFIER, CLIENT_NAME_FOR_DEMO_APP, DEMO_ORG_NAME, DEMO_ROLE_NAME_PREFIX, DEMO_CONNECTION_NAME, CLIENT_NAME_FOR_SAML_DEMO_APP, DEMO_RULE_NAME } = require('../lib/constants');
 const { makeApi2Request } = require('../lib/api2');
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
@@ -20,6 +20,8 @@ const resetTenant = async () => {
   await deleteDemoRoles();
   console.log('>>> DELETING CONNECTION');
   await deleteDemoConnection();
+  console.log('>>> DELETE RULE');
+  await deleteRule();
 };
 
 const deleteDemoOrg = async () => {
@@ -54,6 +56,24 @@ const deleteAppClient = async () => {
   const request = {
     method: 'delete',
     path: `clients/${appClient[0].client_id}`,
+  };
+  await makeApi2Request(request);
+};
+
+const deleteRule = async () => {
+  const getRulesRequest = {
+    path: 'rules?page=0&per_page=100',
+  };
+
+  const rules = await makeApi2Request(getRulesRequest);
+  const demoRule = rules.filter((rules) => rules.name === DEMO_RULE_NAME);
+  if (demoRule.length < 1) {
+    return;
+  }
+
+  const request = {
+    method: 'delete',
+    path: `rules/${demoRule[0].id}`,
   };
   await makeApi2Request(request);
 };

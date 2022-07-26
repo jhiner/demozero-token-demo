@@ -1,0 +1,63 @@
+extends layout
+
+block content
+  include index-header
+  div(class="row mt-3")
+    div(class="col-sm-12")
+      div(class="card")
+        h5(class="card-header") Login with Organization
+        div(class="card-body")
+          form(name="org-select" method="post" action="orgselect")
+            div(class="form-group")
+              <label for="organization_id">Organization</label>
+              select(id="organization_id" name="organization_id" class="form-control")
+                each organization in organizations
+                  option(value=organization.id + '|' + organization.name) #{organization.name}
+              if (showOrgName)
+                label
+                  input(type="checkbox", name="sendorgname")
+                  = " Send Organization Name"
+            input(type="submit" value="Login to organization" class="btn btn-primary")
+  div(class="row mt-3")
+    div(class="col-sm-6")
+      div(class="card")
+        h5(class="card-header") Login with no organization
+        div(class="card-body")
+          form(name="no-org" method="get" action="login")
+            p(class="card-text") Omit the organization parameter completely 
+            input(type="submit" value="Login with no organization" class="btn btn-primary")
+    div(class="col-sm-6")
+      div(class="card")
+        h5(class="card-header") Login with invalid organization id
+        div(class="card-body")
+          p(class="card-text") We'll pass an invalid organization id (org_xyz)
+          a(href="login?organization=org_foo")
+            button(id="signinButton" class="btn btn-primary") Login with invalid organization id
+  div(class="row mt-3")
+    div(class="col-sm-12")
+      div(class="card")
+        h5(class="card-header") Invitations
+        div(class="card-body")
+          form(name="org-invite" method="post" action="invite")
+            div(class="form-group")
+              <label for="email">Email address</label>
+              input(id="email" name="email" value="", class="form-control", size="20")
+              small(id="emailHelp" class="form-text text-muted") Any user with this email will be deleted first, to simulate a "fresh" invite.
+            div(class="form-group")
+              <label for="connection_id">Connection (Optional)</label>
+              select(id="connection_id", name="connection_id", class="form-control")
+                option(value="not-specified") Not specified
+                each connection in connections
+                  option(value=connection.id) #{connection.name}
+            div(class="form-group")
+              <label for="organization_id">Organization</label>
+              select(id="organization_id", name="organization_id", class="form-control")
+                each organization in organizations
+                  option(value=organization.id) #{organization.name}
+            div(class="form-group")
+              <label for="role_id">Role</label>
+              select(id="role_id" name="role_id" class="form-control")
+                each role in roles
+                  option(value=role.id) #{role.name}
+            input(type="submit" value="Invite User" class="btn btn-primary")
+    div(class="col-sm-6") &nbsp;

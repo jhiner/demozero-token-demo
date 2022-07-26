@@ -1,0 +1,46 @@
+extends layout
+
+block content
+  include index-header
+  div(class="row mt-3")
+    div(class="col-sm-12")
+      div(class="card")
+        h5(class="card-header") Runtime Configuration
+        div(class="card-body")
+          form(name="configuration" method="post" action="saveconfiguration")
+            div(class="form-group")
+              <label for="audience">Audience</label>
+              select(id="audience" name="audience" class="form-control")
+                each audience in audienceList
+                  if (selectedAudience === audience)
+                    option(value=audience selected) #{audience}
+                  else
+                    option(value=audience ) #{audience}
+            div(class="form-group")
+              <label for="scope">Scope</label>
+              input(id="scope" name="scope" value="#{scope}", class="form-control", size="20")
+            div(class="form-group")
+              <label for="prompt">Prompt</label>
+              select(id="prompt", name="prompt", class="form-control")
+                option(selected, value) Not specified
+                each prompt in promptList
+                  if (selectedPrompt === prompt)
+                    option(value=prompt selected) #{prompt}
+                  else
+                    option(value=prompt ) #{prompt}
+            div(class="form-group")
+              <label for="connection_name">Connection</label>
+              select(id="connection_name", name="connection_name", class="form-control")
+                option(selected, value) Not specified
+                each connection in connections
+                  if (selectedConnection === connection.name)
+                    option(value=connection.name selected) #{connection.name}
+                  else
+                    option(value=connection.name ) #{connection.name}
+              small(id="connectionHelp" class="form-text text-muted") Optionally specify which enabled connection should be displayed (DB connection) or redirected to (federated connections).
+            div(class="form-group")
+              <label for="login_hint">Login Hint</label>
+              input(id="login_hint" name="login_hint", class="form-control", size="20", value=loginHint)
+              small(id="emailHintHelp" class="form-text text-muted") Pre-populate the identifier of the user (DB connection) or trigger home-realm discovery if enabled.
+            input(type="submit" value="Save Configuration" class="btn btn-primary")
+            small(id="configurationHelp" class="form-text text-muted") Future calls to /authorize will use these values. They will be reset when the app restarts.
