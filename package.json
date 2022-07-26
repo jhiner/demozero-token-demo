@@ -1,11 +1,12 @@
 {
-  "name": "nodejs-quickstart",
+  "name": "demozero",
   "version": "1.0.0",
-  "description": "This is a prototype nodejs quickstart project to demonstrate new OAuth as a service features with Auth0.",
-  "main": "app.js",
+  "description": "Demo app showcasing Auth0 Organizations features.",
+  "main": "server.js",
   "scripts": {
     "start": "nodemon server.js",
-    "reset-tenant": "node scripts/reset_tenant.js"
+    "reset-tenant": "node scripts/reset_tenant.js",
+    "generate-cert": "scripts/generate_cert.sh"
   },
   "author": "",
   "license": "ISC",
@@ -28,19 +29,5 @@
     "passport-wsfed-saml2": "github:jhiner/passport-wsfed-saml2#orgs",
     "qs": "^6.7.0",
     "req-flash": "0.0.3"
-  },
-  "now": {
-    "files": [
-      ".env",
-      "./env_map.js",
-      "./public",
-      "./views",
-      "app.js",
-      "server.js",
-      "./routes",
-      "./app_passport.js"
-    ],
-    "name": "node-hosted-demo",
-    "alias": "node-hosted-demo"
   }
 }

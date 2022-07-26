@@ -51,7 +51,7 @@ const renderUserPage = (req, res, data = {}) => {
     decodedIDToken,
     decodedAccessToken,
     userinfoResponse: data.userinfoResponse,
-    title: 'Demo SaaS App',
+    title: 'Demozero App',
     tokens: {
       refresh_token: req.user.extraParams.refresh_token,
       id_token: idToken,
@@ -75,7 +75,7 @@ const renderUserPageWithSAML = (req, res) => {
   res.render('samluser', {
     user: req.user,
     samlProfile,
-    title: 'Demo SAML SaaS App',
+    title: 'Demozero SAML App',
     config: {
       APP_LOGOUT_URL,
       AUTH0_DOMAIN: getEnv().AUTH0_DOMAIN,
